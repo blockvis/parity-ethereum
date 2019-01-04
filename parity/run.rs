@@ -133,6 +133,7 @@ pub struct RunCmd {
 	pub verifier_settings: VerifierSettings,
 	pub serve_light: bool,
 	pub light: bool,
+	pub instrumented_vm: bool,
 	pub no_persistent_txqueue: bool,
 	pub whisper: ::whisper::Config,
 	pub no_hardcoded_sync: bool,
@@ -202,6 +203,10 @@ fn execute_light_impl(cmd: RunCmd, logger: Arc<RotatingLogger>) -> Result<Runnin
 	print_running_environment(&spec.data_dir, &cmd.dirs, &db_dirs);
 
 	info!("Running in experimental {} mode.", Colour::Blue.bold().paint("Light Client"));
+
+	if cmd.instrumented_vm {
+		info!("Running in experimental {} mode.", Colour::Blue.bold().paint("Instrumented VM"));
+	}
 
 	// TODO: configurable cache size.
 	let cache = LightDataCache::new(Default::default(), Duration::from_secs(60 * GAS_CORPUS_EXPIRATION_MINUTES));
@@ -543,6 +548,10 @@ fn execute_impl<Cr, Rr>(cmd: RunCmd, logger: Arc<RotatingLogger>, on_client_rq: 
 	// display warning if using --no-hardcoded-sync
 	if cmd.no_hardcoded_sync {
 		warn!("The --no-hardcoded-sync flag has no effect if you don't use --light");
+	}
+
+	if cmd.instrumented_vm {
+		info!("Running in experimental {} mode.", Colour::Blue.bold().paint("Instrumented VM"));
 	}
 
 	// create client config

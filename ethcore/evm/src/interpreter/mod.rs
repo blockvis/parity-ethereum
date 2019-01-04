@@ -278,6 +278,8 @@ impl<Cost: CostType> Interpreter<Cost> {
 		let gasometer = Cost::from_u256(params.gas).ok().map(|gas| Gasometer::<Cost>::new(gas));
 		let stack = VecStack::with_capacity(schedule.stack_limit, U256::zero());
 
+		info!("EVM: Interpreter created");
+
 		Interpreter {
 			cache, params, reader, informant,
 			valid_jump_destinations, gasometer, stack,
@@ -530,6 +532,9 @@ impl<Cost: CostType> Interpreter<Cost> {
 				let contract_code = self.mem.read_slice(init_off, init_size);
 
 				let create_result = ext.create(&create_gas.as_u256(), &endowment, contract_code, address_scheme, true);
+
+				info!("EVM: Instruction: CREATE/CREATE2");
+
 				return match create_result {
 					Ok(ContractCreateResult::Created(address, gas_left)) => {
 						self.stack.push(address_to_u256(address));
@@ -602,6 +607,8 @@ impl<Cost: CostType> Interpreter<Cost> {
 					self.stack.push(U256::zero());
 					return Ok(InstructionResult::UnusedGas(call_gas));
 				}
+
+				info!("EVM: Instruction: CALL/CALLCODE/DELEGATECALL/STATICCALL");
 
 				let call_result = {
 					let input = self.mem.read_slice(in_off, in_size);

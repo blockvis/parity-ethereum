@@ -393,6 +393,7 @@ impl Configuration {
 				verifier_settings: verifier_settings,
 				serve_light: !self.args.flag_no_serve_light,
 				light: self.args.flag_light,
+				instrumented_vm: self.args.flag_instrumented_vm,
 				no_persistent_txqueue: self.args.flag_no_persistent_txqueue,
 				whisper: whisper_config,
 				no_hardcoded_sync: self.args.flag_no_hardcoded_sync,

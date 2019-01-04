@@ -250,6 +250,10 @@ usage! {
 			"--light",
 			"Experimental: run in light client mode. Light clients synchronize a bare minimum of data and fetch necessary data on-demand from the network. Much lower in storage, potentially higher in bandwidth. Has no effect with subcommands.",
 
+			FLAG flag_instrumented_vm: (bool) = false, or |c: &Config| c.parity.as_ref()?.instrumented_vm,
+			"--instrumented_vm",
+			"Experimental: run in instrumented vm mode.",
+
 			FLAG flag_no_hardcoded_sync: (bool) = false, or |c: &Config| c.parity.as_ref()?.no_hardcoded_sync,
 			"--no-hardcoded-sync",
 			"By default, if there is no existing database the light client will automatically jump to a block hardcoded in the chain's specifications. This disables this feature.",
@@ -1162,6 +1166,7 @@ struct Operating {
 	keys_path: Option<String>,
 	identity: Option<String>,
 	light: Option<bool>,
+	instrumented_vm: Option<bool>,
 	no_persistent_txqueue: Option<bool>,
 	no_hardcoded_sync: Option<bool>,
 
