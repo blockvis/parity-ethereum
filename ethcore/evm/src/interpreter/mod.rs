@@ -485,6 +485,7 @@ impl<Cost: CostType> Interpreter<Cost> {
 		instruction: Instruction,
 		provided: Option<Cost>
 	) -> vm::Result<InstructionResult<Cost>> {
+		info!("EVM: inside: exec_instruction {}", instruction.info().name);
 		match instruction {
 			instructions::JUMP => {
 				let jump = self.stack.pop_back();
@@ -599,6 +600,8 @@ impl<Cost: CostType> Interpreter<Cost> {
 					_ => panic!(format!("Unexpected instruction {:?} in CALL branch.", instruction))
 				};
 
+				info!("EVM: Instruction: CALL/CALLCODE/DELEGATECALL/STATICCALL");
+
 				// clear return data buffer before creating new call frame.
 				self.return_data = ReturnData::empty();
 
@@ -607,8 +610,6 @@ impl<Cost: CostType> Interpreter<Cost> {
 					self.stack.push(U256::zero());
 					return Ok(InstructionResult::UnusedGas(call_gas));
 				}
-
-				info!("EVM: Instruction: CALL/CALLCODE/DELEGATECALL/STATICCALL");
 
 				let call_result = {
 					let input = self.mem.read_slice(in_off, in_size);
