@@ -19,6 +19,8 @@
 mod config;
 mod db;
 mod executive_tracer;
+mod proxy_tracer;
+mod streaming_tracer;
 mod import;
 mod noop_tracer;
 mod types;
@@ -27,6 +29,7 @@ pub use self::config::Config;
 pub use self::db::TraceDB;
 pub use self::noop_tracer::{NoopTracer, NoopVMTracer};
 pub use self::executive_tracer::{ExecutiveTracer, ExecutiveVMTracer};
+pub use self::proxy_tracer::{ProxyTracer, ProxyVMTracer};
 pub use self::import::ImportRequest;
 pub use self::localized::LocalizedTrace;
 

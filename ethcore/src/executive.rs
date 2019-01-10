@@ -141,23 +141,23 @@ impl<T, V> TransactOptions<T, V> {
 	}
 }
 
-impl TransactOptions<trace::ExecutiveTracer, trace::ExecutiveVMTracer> {
+impl TransactOptions<trace::ProxyTracer, trace::ProxyVMTracer> {
 	/// Creates new `TransactOptions` with default tracing and VM tracing.
 	pub fn with_tracing_and_vm_tracing() -> Self {
 		TransactOptions {
-			tracer: trace::ExecutiveTracer::default(),
-			vm_tracer: trace::ExecutiveVMTracer::toplevel(),
+			tracer: trace::ProxyTracer::create(trace::ExecutiveTracer::default()),
+			vm_tracer: trace::ProxyVMTracer::toplevel(),
 			check_nonce: true,
 			output_from_init_contract: false,
 		}
 	}
 }
 
-impl TransactOptions<trace::ExecutiveTracer, trace::NoopVMTracer> {
+impl TransactOptions<trace::ProxyTracer, trace::NoopVMTracer> {
 	/// Creates new `TransactOptions` with default tracing and no VM tracing.
 	pub fn with_tracing() -> Self {
 		TransactOptions {
-			tracer: trace::ExecutiveTracer::default(),
+			tracer: trace::ProxyTracer::create(trace::ExecutiveTracer::default()),
 			vm_tracer: trace::NoopVMTracer,
 			check_nonce: true,
 			output_from_init_contract: false,

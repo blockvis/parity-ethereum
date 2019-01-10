@@ -194,6 +194,7 @@ impl Tracer for ExecutiveTracer {
 }
 
 /// Simple VM tracer. Traces all operations.
+#[derive(Default)]
 pub struct ExecutiveVMTracer {
 	data: VMTrace,
 	depth: usize,

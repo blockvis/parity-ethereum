@@ -28,7 +28,7 @@ use executive::Executive;
 use header::{BlockNumber, Header, ExtendedHeader};
 use spec::CommonParams;
 use state::{CleanupMode, Substate};
-use trace::{NoopTracer, NoopVMTracer, Tracer, ExecutiveTracer, RewardType, Tracing};
+use trace::{NoopTracer, NoopVMTracer, Tracer, ExecutiveTracer, ProxyTracer, RewardType, Tracing};
 use transaction::{self, SYSTEM_ADDRESS, UNSIGNED_SENDER, UnverifiedTransaction, SignedTransaction};
 use tx_filter::TransactionFilter;
 
@@ -471,7 +471,7 @@ impl WithRewards for EthereumMachine {
 		rewards: &[(Address, RewardType, U256)],
 	) -> Result<(), Self::Error> {
 		if let Tracing::Enabled(ref mut traces) = *live.traces_mut() {
-			let mut tracer = ExecutiveTracer::default();
+			let mut tracer = ProxyTracer::create(ExecutiveTracer::default());
 
 			for &(address, ref reward_type, amount) in rewards {
 				tracer.trace_reward(address, amount, reward_type.clone());

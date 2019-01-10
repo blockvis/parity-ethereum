@@ -1449,6 +1449,7 @@ mod tests {
 			verifier_settings: Default::default(),
 			serve_light: true,
 			light: false,
+			instrumented_vm: false,
 			no_hardcoded_sync: false,
 			no_persistent_txqueue: false,
 			whisper: Default::default(),
