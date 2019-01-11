@@ -16,16 +16,48 @@
 
 //! Streaming tracer.
 
-pub trait StreamingTracer: Send {
-}
-
-#[derive(Default)]
-pub struct StreamingEventInfo {
-}
+use ethereum_types::{U256, Address};
+use vm::{Error as VmError, ActionParams};
+use trace::trace::{RewardType};
+use trace::{Tracer, FlatTrace};
 
 #[derive(Default)]
 pub struct NoopStreamingTracer {
 }
 
-impl StreamingTracer for NoopStreamingTracer {
+impl Tracer for NoopStreamingTracer {
+	type Output = FlatTrace;
+
+	fn prepare_trace_call(&mut self, params: &ActionParams, depth: usize, is_builtin: bool) {
+		info!(target: "tracer", "prepare_trace_call: {:?} - {:?} - {:?}", params, depth, is_builtin);
+	}
+
+	fn prepare_trace_create(&mut self, params: &ActionParams) {
+		info!(target: "tracer", "prepare_trace_create: {:?}", params);
+	}
+
+	fn done_trace_call(&mut self, gas_used: U256, output: &[u8]) {
+		info!(target: "tracer", "done_trace_call: {:?} - {:?}", gas_used, output);
+	}
+
+	fn done_trace_create(&mut self, gas_used: U256, code: &[u8], address: Address) {
+		info!(target: "tracer", "done_trace_create: {:?} - {:?} - {:?}", gas_used, code, address);
+	}
+
+	fn done_trace_failed(&mut self, error: &VmError) {
+		info!(target: "tracer", "done_trace_failed: {:?}", error);
+	}
+
+	fn trace_suicide(&mut self, address: Address, balance: U256, refund_address: Address) {
+		info!(target: "tracer", "trace_suicide: {:?} - {:?} - {:?}", address, balance, refund_address);
+	}
+
+	fn trace_reward(&mut self, author: Address, value: U256, reward_type: RewardType) {
+		let rt = reward_type.clone();
+		info!(target: "tracer", "trace_reward: {:?} - {:?} - {:?}", author, value, rt);
+	}
+
+	fn drain(self) -> Vec<FlatTrace> {
+		return vec![];
+	}
 }

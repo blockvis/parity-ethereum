@@ -18,9 +18,9 @@
 
 use ethereum_types::{U256, Address};
 use vm::{Error as VmError, ActionParams};
-use trace::trace::{Call, Create, Action, Res, CreateResult, CallResult, VMTrace, VMOperation, VMExecutedOperation, MemoryDiff, StorageDiff, Suicide, Reward, RewardType};
+use trace::trace::{VMTrace, RewardType};
 use trace::{Tracer, VMTracer, FlatTrace};
-use trace::streaming_tracer::{StreamingTracer, NoopStreamingTracer};
+use trace::streaming_tracer::{NoopStreamingTracer};
 use trace::executive_tracer::{ExecutiveTracer, ExecutiveVMTracer};
 
 /// Proxy tracer. Forwards everything to the inner impl.
@@ -31,6 +31,7 @@ pub struct ProxyTracer {
 }
 
 impl ProxyTracer {
+	/// Constructs a new ProxyTracer.
 	pub fn create(inner: ExecutiveTracer) -> Self {
 		return ProxyTracer {
 			inner_tracer: Box::new(inner),
@@ -43,42 +44,43 @@ impl Tracer for ProxyTracer {
 	type Output = FlatTrace;
 
 	fn prepare_trace_call(&mut self, params: &ActionParams, depth: usize, is_builtin: bool) {
+		self.streaming_tracer.prepare_trace_call(params, depth, is_builtin);
 		self.inner_tracer.prepare_trace_call(params, depth, is_builtin);
-		info!(target: "tracer", "prepare_trace_call: {:?} - {:?} - {:?}", params, depth, is_builtin);
 	}
 
 	fn prepare_trace_create(&mut self, params: &ActionParams) {
+		self.streaming_tracer.prepare_trace_create(params);
 		self.inner_tracer.prepare_trace_create(params);
-		info!(target: "tracer", "prepare_trace_create: {:?}", params);
 	}
 
 	fn done_trace_call(&mut self, gas_used: U256, output: &[u8]) {
+		self.streaming_tracer.done_trace_call(gas_used, output);
 		self.inner_tracer.done_trace_call(gas_used, output);
-		info!(target: "tracer", "done_trace_call: {:?} - {:?}", gas_used, output);
 	}
 
 	fn done_trace_create(&mut self, gas_used: U256, code: &[u8], address: Address) {
+		self.streaming_tracer.done_trace_create(gas_used, code, address);
 		self.inner_tracer.done_trace_create(gas_used, code, address);
-		info!(target: "tracer", "done_trace_create: {:?} - {:?} - {:?}", gas_used, code, address);
 	}
 
 	fn done_trace_failed(&mut self, error: &VmError) {
+		self.streaming_tracer.done_trace_failed(error);
 		self.inner_tracer.done_trace_failed(error);
-		info!(target: "tracer", "done_trace_failed: {:?}", error);
 	}
 
 	fn trace_suicide(&mut self, address: Address, balance: U256, refund_address: Address) {
+		self.streaming_tracer.trace_suicide(address, balance, refund_address);
 		self.inner_tracer.trace_suicide(address, balance, refund_address);
-		info!(target: "tracer", "trace_suicide: {:?} - {:?} - {:?}", address, balance, refund_address);
 	}
 
 	fn trace_reward(&mut self, author: Address, value: U256, reward_type: RewardType) {
 		let rt = reward_type.clone();
+		self.streaming_tracer.trace_reward(author, value, rt);
 		self.inner_tracer.trace_reward(author, value, reward_type);
-		info!(target: "tracer", "trace_reward: {:?} - {:?} - {:?}", author, value, rt);
 	}
 
 	fn drain(self) -> Vec<FlatTrace> {
+		self.streaming_tracer.drain();
 		return self.inner_tracer.drain();
 	}
 }
@@ -94,14 +96,6 @@ impl ProxyVMTracer {
 	pub fn toplevel() -> Self {
 		return ProxyVMTracer {
 			inner_vmtracer: Box::new(ExecutiveVMTracer::toplevel())
-		}
-	}
-
-	fn with_trace_in_depth<F: Fn(&mut VMTrace)>(trace: &mut VMTrace, depth: usize, f: F) {
-		if depth == 0 {
-			f(trace);
-		} else {
-			Self::with_trace_in_depth(trace.subs.last_mut().expect("self.depth is incremented with prepare_subtrace; a subtrace is always pushed; self.depth cannot be greater than subtrace stack; qed"), depth - 1, f);
 		}
 	}
 }
