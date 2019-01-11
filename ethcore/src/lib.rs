@@ -114,7 +114,7 @@ extern crate tempdir;
 extern crate len_caching_lock;
 
 #[cfg(any(target_os = "linux", target_os = "macos", target_os = "windows", target_os = "android"))]
-extern crate hardware_wallet;
+extern crate fake_hardware_wallet as hardware_wallet;
 
 #[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows", target_os = "android")))]
 extern crate fake_hardware_wallet as hardware_wallet;

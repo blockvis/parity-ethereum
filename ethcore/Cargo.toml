@@ -72,7 +72,7 @@ tempdir = {version="0.3", optional = true}
 len-caching-lock = { path = "../util/len-caching-lock" }
 
 [target.'cfg(any(target_os = "linux", target_os = "macos", target_os = "windows", target_os = "android"))'.dependencies]
-hardware-wallet = { path = "../accounts/hw" }
+fake-hardware-wallet = { path = "../accounts/fake-hardware-wallet" }
 
 [target.'cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows", target_os = "android")))'.dependencies]
 fake-hardware-wallet = { path = "../accounts/fake-hardware-wallet" }

@@ -711,7 +711,6 @@ dependencies = [
  "ethstore 0.2.1",
  "evm 0.1.0",
  "fake-hardware-wallet 0.0.1",
- "hardware-wallet 1.12.0",
  "hashdb 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "heapsize 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "itertools 0.5.10 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1445,22 +1444,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "hardware-wallet"
-version = "1.12.0"
-dependencies = [
- "ethereum-types 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "ethkey 0.3.0",
- "hidapi 0.3.1 (git+https://github.com/paritytech/hidapi-rs)",
- "libusb 0.3.0 (git+https://github.com/paritytech/libusb-rs)",
- "log 0.4.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "parking_lot 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "protobuf 1.7.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "rustc-hex 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "semver 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "trezor-sys 1.0.0 (git+https://github.com/paritytech/trezor-sys)",
-]
-
-[[package]]
 name = "hashdb"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1485,15 +1468,6 @@ dependencies = [
 name = "hex"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-
-[[package]]
-name = "hidapi"
-version = "0.3.1"
-source = "git+https://github.com/paritytech/hidapi-rs#d4d323767d6f27cf5a3d73fbae0b0f2134d579bf"
-dependencies = [
- "cc 1.0.25 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.43 (registry+https://github.com/rust-lang/crates.io-index)",
-]
 
 [[package]]
 name = "home"
@@ -1921,25 +1895,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "cc 1.0.25 (registry+https://github.com/rust-lang/crates.io-index)",
  "winapi 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
-name = "libusb"
-version = "0.3.0"
-source = "git+https://github.com/paritytech/libusb-rs#442708954a720bc89a9cf41e7be021a778bdbc27"
-dependencies = [
- "bit-set 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.43 (registry+https://github.com/rust-lang/crates.io-index)",
- "libusb-sys 0.2.4 (git+https://github.com/paritytech/libusb-sys)",
-]
-
-[[package]]
-name = "libusb-sys"
-version = "0.2.4"
-source = "git+https://github.com/paritytech/libusb-sys#1d33d9840a82adaf4d6a1a0f5141f022e5676802"
-dependencies = [
- "cc 1.0.25 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.43 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -2534,7 +2489,6 @@ dependencies = [
  "fastmap 0.1.0",
  "fetch 0.1.0",
  "futures 0.1.25 (registry+https://github.com/rust-lang/crates.io-index)",
- "hardware-wallet 1.12.0",
  "itertools 0.5.10 (registry+https://github.com/rust-lang/crates.io-index)",
  "jsonrpc-core 9.0.0 (git+https://github.com/paritytech/jsonrpc.git?branch=parity-2.2)",
  "jsonrpc-http-server 9.0.0 (git+https://github.com/paritytech/jsonrpc.git?branch=parity-2.2)",
@@ -2929,11 +2883,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "unicode-xid 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
-
-[[package]]
-name = "protobuf"
-version = "1.7.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "pulldown-cmark"
@@ -3928,14 +3877,6 @@ version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "trezor-sys"
-version = "1.0.0"
-source = "git+https://github.com/paritytech/trezor-sys#8a401705e58c83db6c29c199d9577b78fde40709"
-dependencies = [
- "protobuf 1.7.4 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "trie-standardmap"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4429,7 +4370,6 @@ dependencies = [
 "checksum heapsize 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)" = "1679e6ea370dee694f91f1dc469bf94cf8f52051d147aec3e1f9497c6fc22461"
 "checksum heck 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "ea04fa3ead4e05e51a7c806fc07271fdbde4e246a6c6d1efd52e72230b771b82"
 "checksum hex 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "d6a22814455d41612f41161581c2883c0c6a1c41852729b17d5ed88f01e153aa"
-"checksum hidapi 0.3.1 (git+https://github.com/paritytech/hidapi-rs)" = "<none>"
 "checksum home 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "80dff82fb58cfbbc617fb9a9184b010be0529201553cda50ad04372bc2333aff"
 "checksum http 0.1.13 (registry+https://github.com/rust-lang/crates.io-index)" = "24f58e8c2d8e886055c3ead7b28793e1455270b5fb39650984c224bc538ba581"
 "checksum httparse 1.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "e8734b0cfd3bc3e101ec59100e101c2eecd19282202e87808b3037b442777a83"
@@ -4469,8 +4409,6 @@ dependencies = [
 "checksum lazycell 1.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "ddba4c30a78328befecec92fc94970e53b3ae385827d28620f0f5bb2493081e0"
 "checksum libc 0.2.43 (registry+https://github.com/rust-lang/crates.io-index)" = "76e3a3ef172f1a0b9a9ff0dd1491ae5e6c948b94479a3021819ba7d860c8645d"
 "checksum libloading 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "9c3ad660d7cb8c5822cd83d10897b0f1f1526792737a179e73896152f85b88c2"
-"checksum libusb 0.3.0 (git+https://github.com/paritytech/libusb-rs)" = "<none>"
-"checksum libusb-sys 0.2.4 (git+https://github.com/paritytech/libusb-sys)" = "<none>"
 "checksum linked-hash-map 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7860ec297f7008ff7a1e3382d7f7e1dcd69efc94751a2284bafc3d013c2aa939"
 "checksum linked-hash-map 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "70fb39025bc7cdd76305867c4eccf2f2dcf6e9a57f5b21a93e1c2d86cd03ec9e"
 "checksum local-encoding 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "e1ceb20f39ff7ae42f3ff9795f3986b1daad821caaa1e1732a0944103a5a1a66"
@@ -4541,7 +4479,6 @@ dependencies = [
 "checksum primal-estimate 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "56ea4531dde757b56906493c8604641da14607bf9cdaa80fb9c9cabd2429f8d5"
 "checksum primal-sieve 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)" = "da2d6ed369bb4b0273aeeb43f07c105c0117717cbae827b20719438eb2eb798c"
 "checksum proc-macro2 0.4.20 (registry+https://github.com/rust-lang/crates.io-index)" = "3d7b7eaaa90b4a90a932a9ea6666c95a389e424eff347f0f793979289429feee"
-"checksum protobuf 1.7.4 (registry+https://github.com/rust-lang/crates.io-index)" = "52fbc45bf6709565e44ef31847eb7407b3c3c80af811ee884a04da071dcca12b"
 "checksum pulldown-cmark 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "8361e81576d2e02643b04950e487ec172b687180da65c731c03cf336784e6c07"
 "checksum pwasm-utils 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "90d2b3c5bf24275fc77db6b14ec00a7a085d8ff9d1c4215fb6f6263e8d7b01bc"
 "checksum quick-error 1.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "9274b940887ce9addde99c4eee6b5c44cc494b182b97e73dc8ffdcb3397fd3f0"
@@ -4649,7 +4586,6 @@ dependencies = [
 "checksum trace-time 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "dbe82f2f0bf1991e163e757baf044282823155dd326e70f44ce2186c3c320cc9"
 "checksum transaction-pool 1.13.3 (registry+https://github.com/rust-lang/crates.io-index)" = "e5866e5126b14358f1d7af4bf51a0be677a363799b90e655edcec8254edef1d2"
 "checksum transient-hashmap 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)" = "aeb4b191d033a35edfce392a38cdcf9790b6cebcb30fa690c312c29da4dc433e"
-"checksum trezor-sys 1.0.0 (git+https://github.com/paritytech/trezor-sys)" = "<none>"
 "checksum trie-standardmap 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "0e26f52976a57a0859616d6fcec87092ac35d08eabbd78dc3dabee93b480ea5f"
 "checksum triehash 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "cd9cb3a626dd9a19a1b5f84087143b19409db793d902c5ddee4b6212020713f1"
 "checksum try-lock 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "ee2aa4715743892880f70885373966c83d73ef1b0838a664ef0c76fffd35e7c2"
