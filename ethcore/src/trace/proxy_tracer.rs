@@ -20,14 +20,14 @@ use ethereum_types::{U256, Address};
 use vm::{Error as VmError, ActionParams};
 use trace::trace::{VMTrace, RewardType};
 use trace::{Tracer, VMTracer, FlatTrace};
-use trace::streaming_tracer::{NoopStreamingTracer};
+use trace::streaming_tracer::{MqStreamingTracer};
 use trace::executive_tracer::{ExecutiveTracer, ExecutiveVMTracer};
 
 /// Proxy tracer. Forwards everything to the inner impl.
 #[derive(Default)]
 pub struct ProxyTracer {
 	inner_tracer: Box<ExecutiveTracer>,
-	streaming_tracer: Box<NoopStreamingTracer>,
+	streaming_tracer: Box<MqStreamingTracer>,
 }
 
 impl ProxyTracer {
@@ -35,7 +35,7 @@ impl ProxyTracer {
 	pub fn create(inner: ExecutiveTracer) -> Self {
 		return ProxyTracer {
 			inner_tracer: Box::new(inner),
-			streaming_tracer: Box::new(NoopStreamingTracer::default())
+			streaming_tracer: Box::new(MqStreamingTracer::create())
 		}
 	}
 }

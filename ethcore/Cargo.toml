@@ -70,6 +70,15 @@ serde = "1.0"
 serde_derive = "1.0"
 tempdir = {version="0.3", optional = true}
 len-caching-lock = { path = "../util/len-caching-lock" }
+lapin-futures-rustls = "^0.17.1"
+lapin-futures = "^0.15"
+lapin-async = "^0.15"
+failure = "^0.1"
+futures = "^0.1"
+tokio = "^0.1.8"
+tokio-codec = "^0.1"
+tokio-io = "^0.1"
+tokio-timer = "^0.2"
 
 [target.'cfg(any(target_os = "linux", target_os = "macos", target_os = "windows", target_os = "android"))'.dependencies]
 fake-hardware-wallet = { path = "../accounts/fake-hardware-wallet" }

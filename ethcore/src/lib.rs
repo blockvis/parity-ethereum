@@ -146,6 +146,11 @@ extern crate env_logger;
 
 pub extern crate ethstore;
 
+extern crate lapin_futures as lapin;
+extern crate failure;
+extern crate futures;
+extern crate tokio;
+
 #[macro_use]
 pub mod views;
 
