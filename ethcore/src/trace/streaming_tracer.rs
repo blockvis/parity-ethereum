@@ -22,6 +22,39 @@ use trace::trace::{RewardType};
 use trace::{Tracer, FlatTrace};
 
 #[derive(Default)]
+pub struct MqStreamingTracer {
+}
+
+impl Tracer for MqStreamingTracer {
+	type Output = FlatTrace;
+
+	fn prepare_trace_call(&mut self, params: &ActionParams, depth: usize, is_builtin: bool) {
+	}
+
+	fn prepare_trace_create(&mut self, params: &ActionParams) {
+	}
+
+	fn done_trace_call(&mut self, gas_used: U256, output: &[u8]) {
+	}
+
+	fn done_trace_create(&mut self, gas_used: U256, code: &[u8], address: Address) {
+	}
+
+	fn done_trace_failed(&mut self, error: &VmError) {
+	}
+
+	fn trace_suicide(&mut self, address: Address, balance: U256, refund_address: Address) {
+	}
+
+	fn trace_reward(&mut self, author: Address, value: U256, reward_type: RewardType) {
+	}
+
+	fn drain(self) -> Vec<FlatTrace> {
+		return vec![];
+	}
+}
+
+#[derive(Default)]
 pub struct NoopStreamingTracer {
 }
 
@@ -53,8 +86,7 @@ impl Tracer for NoopStreamingTracer {
 	}
 
 	fn trace_reward(&mut self, author: Address, value: U256, reward_type: RewardType) {
-		let rt = reward_type.clone();
-		info!(target: "tracer", "trace_reward: {:?} - {:?} - {:?}", author, value, rt);
+		info!(target: "tracer", "trace_reward: {:?} - {:?} - {:?}", author, value, reward_type);
 	}
 
 	fn drain(self) -> Vec<FlatTrace> {
