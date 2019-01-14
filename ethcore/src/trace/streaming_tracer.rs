@@ -170,7 +170,10 @@ impl MqStreamingTracer {
 		if let Some(ref channel) = self.channel {
 			let data_str = payload.to_string();
 			let data_bytes = data_str.as_bytes();
-			channel.basic_publish("MqStreamingTracer", "", data_bytes.to_vec(), BasicPublishOptions::default(), BasicProperties::default());
+			channel.basic_publish("MqStreamingTracer", "", data_bytes.to_vec(), BasicPublishOptions::default(), BasicProperties::default())
+				.wait()
+				.expect("Error: basic_publish FAILED.");
+
 		}
 		else {
 			error!("Error: post_to_channel FAILED.");
