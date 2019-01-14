@@ -79,6 +79,7 @@ tokio = "^0.1.8"
 tokio-codec = "^0.1"
 tokio-io = "^0.1"
 tokio-timer = "^0.2"
+rustc-serialize = "0.3"
 
 [target.'cfg(any(target_os = "linux", target_os = "macos", target_os = "windows", target_os = "android"))'.dependencies]
 fake-hardware-wallet = { path = "../accounts/fake-hardware-wallet" }

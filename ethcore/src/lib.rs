@@ -150,6 +150,7 @@ extern crate lapin_futures as lapin;
 extern crate failure;
 extern crate futures;
 extern crate tokio;
+extern crate rustc_serialize;
 
 #[macro_use]
 pub mod views;
