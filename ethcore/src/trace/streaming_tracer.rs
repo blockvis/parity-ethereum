@@ -29,6 +29,7 @@ use lapin::types::FieldTable;
 use lapin::client::ConnectionOptions;
 use lapin::channel::{BasicProperties, BasicPublishOptions, ExchangeDeclareOptions};
 
+use std::convert::From;
 use std::collections::BTreeMap;
 use rustc_serialize::json::{self, ToJson, Json};
 
@@ -193,7 +194,17 @@ impl Tracer for MqStreamingTracer {
 	}
 
 	fn done_trace_call(&mut self, gas_used: U256, output: &[u8]) {
-		if let Some(ref last_action_params) = self.last_action_params {
+		if let Some(last_action_params) = self.last_action_params.clone() {
+			let mut payload = MqStreamingPayload::from(last_action_params);
+
+			// TODO: review params.
+			payload.gas_used = gas_used.clone();
+			payload.output_data = Some(output.clone().to_vec());
+
+			self.post_to_channel(&payload);
+		}
+		else {
+			error!("Error: done_trace_call FAILED.");
 		}
 
 		self.last_action_params = None;
@@ -202,7 +213,17 @@ impl Tracer for MqStreamingTracer {
 	}
 
 	fn done_trace_create(&mut self, gas_used: U256, code: &[u8], address: Address) {
-		if let Some(ref last_action_params) = self.last_action_params {
+		if let Some(last_action_params) = self.last_action_params.clone() {
+			let mut payload = MqStreamingPayload::from(last_action_params);
+
+			// TODO: review params.
+			payload.gas_used = gas_used.clone();
+			payload.code_address = address.clone();
+
+			self.post_to_channel(&payload);
+		}
+		else {
+			error!("Error: done_trace_create FAILED.");
 		}
 
 		self.last_action_params = None;
@@ -212,13 +233,22 @@ impl Tracer for MqStreamingTracer {
 
 	fn done_trace_failed(&mut self, error: &VmError) {
 		let mut is_create = false;
-		if let Some(ref last_action_params) = self.last_action_params {
-			let action = Action::Create(Create::from(last_action_params.clone()));
+		if let Some(last_action_params) = self.last_action_params.clone() {
+			let last_action_params_cloned = last_action_params.clone();
+			let action = Action::Create(Create::from(last_action_params_cloned));
 
 			is_create = match action {
 				Action::Create(_) => true,
 				_ => false,
 			};
+
+			// TODO: review error & create.
+			let payload = MqStreamingPayload::from(last_action_params);
+
+			self.post_to_channel(&payload);
+		}
+		else {
+			error!("Error: done_trace_failed FAILED.");
 		}
 
 		self.last_action_params = None;
@@ -227,10 +257,28 @@ impl Tracer for MqStreamingTracer {
 	}
 
 	fn trace_suicide(&mut self, address: Address, balance: U256, refund_address: Address) {
+		let mut payload = MqStreamingPayload::default();
+		
+		// TODO: review params.
+		payload.code_address = address.clone();
+		payload.to = refund_address.clone();
+		payload.value = balance.clone();
+
+		self.post_to_channel(&payload);
+
 		info!(target: "tracer", "trace_suicide: {:?} - {:?} - {:?}", address, balance, refund_address);
 	}
 
 	fn trace_reward(&mut self, author: Address, value: U256, reward_type: RewardType) {
+		let mut payload = MqStreamingPayload::default();
+
+		// TODO: review params.
+		payload.to = author.clone();
+		payload.value = value.clone();
+		payload.reward_type = reward_type.clone();
+
+		self.post_to_channel(&payload);
+
 		info!(target: "tracer", "trace_reward: {:?} - {:?} - {:?}", author, value, reward_type);
 	}
 
